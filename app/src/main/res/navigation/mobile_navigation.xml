@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="br.com.app.picpayclone.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_pagar"
+        android:name="br.com.app.picpayclone.ui.pagar.PagarFragment"
+        android:label="@string/title_pagar"
+        tools:layout="@layout/fragment_pagar" >
+        <action
+            android:id="@+id/action_navigation_pagar_to_transacaoFragment"
+            app:destination="@id/transacaoFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_ajustes"
+        android:name="br.com.app.picpayclone.ui.ajuste.AjusteFragment"
+        android:label="@string/title_ajustes"
+        tools:layout="@layout/fragment_ajustes" />
+
+    <fragment
+        android:id="@+id/login_fragment"
+        android:name="br.com.app.picpayclone.ui.login.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_navigation_home"
+            app:destination="@id/navigation_home"
+            app:popUpTo="@id/login_fragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_loginFragment"
+        app:destination="@id/login_fragment"
+        app:popUpTo="@id/navigation_home"
+        app:popUpToInclusive="true" />
+
+    <fragment
+        android:id="@+id/transacaoFragment"
+        android:name="br.com.app.picpayclone.ui.transacao.TransacaoFragment"
+        android:label="TransacaoFragment"
+        tools:layout="@layout/fragment_transacao">
+        <action
+            android:id="@+id/action_transacaoFragment_to_navigation_pagar"
+            app:destination="@id/navigation_pagar"
+            app:popUpTo="@id/navigation_pagar"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="usuario"
+            app:argType="br.com.dio.picpayclone.data.Usuario" />
+    </fragment>
+
+</navigation>
