@@ -34,10 +34,10 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        componentesViewModel.temComponentes =
-            ComponentesViewModel.Componentes(bottomNavigation = true)
+        componentesViewModel.temComponentes = ComponentesViewModel.Componentes(bottomNavigation = true)
         if (UsuarioLogado.isUsuarioNaoLogado()) {
             vaiParaLogin()
+            return
         }
         setObserves()
     }

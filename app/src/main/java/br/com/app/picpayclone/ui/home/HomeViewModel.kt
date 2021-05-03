@@ -6,11 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.app.picpayclone.data.UsuarioLogado
+import br.com.app.picpayclone.repository.TransacaoRepository
 import br.com.app.picpayclone.service.ApiService
 import br.com.dio.picpayclone.data.transacao.Transacao
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class HomeViewModel(private val apiService: ApiService) : ViewModel() {
+class HomeViewModel(private val transacaoRepository: TransacaoRepository ) : ViewModel() {
 
     private val _saldo = MutableLiveData<Double>()
     val saldo: LiveData<Double> = _saldo
@@ -20,17 +22,21 @@ class HomeViewModel(private val apiService: ApiService) : ViewModel() {
     val onLoading = MutableLiveData<Boolean>()
 
     init {
-        onLoading.value = true
-        viewModelScope.launch {
-            try {
-                val login = UsuarioLogado.usuario.login
-                _saldo.value = apiService.getSaldo(login).saldo
-                _transacoes.value = apiService.getTransacoes(login).content
-            } catch (e: Exception) {
-                onError.value = e.message
+        if (UsuarioLogado.isUsuarioLogado()) {
+            viewModelScope.launch(Dispatchers.IO) {
+                onLoading.postValue(true)
+                try {
+                    val login = UsuarioLogado.usuario.login
+                    val saldo = transacaoRepository.getSaldo(login)
+                    _saldo.postValue(saldo)
+                    val historico = transacaoRepository.getTransacoes(login)
+                    _transacoes.postValue(historico)
+                } catch (e: Exception) {
+                    onError.postValue(e.message)
+                }
+                onLoading.postValue(false)
             }
         }
-        onLoading.value = false
     }
 
 }

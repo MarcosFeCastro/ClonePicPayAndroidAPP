@@ -1,6 +1,6 @@
 package br.com.dio.picpayclone.data
 
 data class Login(
-    val login: String,
+    val usuario: String,
     val senha: String
 )

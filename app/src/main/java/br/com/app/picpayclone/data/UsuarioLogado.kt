@@ -4,9 +4,11 @@ import br.com.dio.picpayclone.data.Usuario
 
 object UsuarioLogado {
 
+    lateinit var token: Token
+
     lateinit var usuario: Usuario
 
-    fun isUsuarioLogado() = this::usuario.isInitialized
+    fun isUsuarioLogado() = this::token.isInitialized
 
     fun isUsuarioNaoLogado() = !isUsuarioLogado()
 
